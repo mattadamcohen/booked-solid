@@ -67,6 +67,43 @@
   .slot { height: 46px; border-radius: 6px; background: var(--ink-3); }
   .slot.booked { background: var(--accent); color: #fff; padding: 9px 8px; font-size: 11px; line-height: 1.3; overflow: hidden; }
   .cal-foot { margin: 18px 0 0; }
+  .cal-head .cal-count { color: #fff; font-weight: 600; }
+
+  /* Hero animation: phone rings, meetings fill the calendar */
+  .hero-stage { position: relative; padding-top: 44px; padding-bottom: 36px; }
+  .phone-badge { position: absolute; top: 0; right: 24px; width: 64px; height: 64px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px -8px rgba(194,65,12,0.55); z-index: 2; }
+  .phone-badge svg { width: 30px; height: 30px; }
+  .phone-badge::before, .phone-badge::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; }
+  .toast { position: absolute; left: 24px; bottom: 0; z-index: 2; display: flex; align-items: center; gap: 12px; background: #fff; color: var(--ink); border-radius: 12px; padding: 12px 16px; box-shadow: 0 18px 40px -12px rgba(14,26,43,0.35); font-size: 14px; max-width: calc(100% - 48px); }
+  .toast-icon { width: 28px; height: 28px; border-radius: 50%; background: #047857; display: flex; align-items: center; justify-content: center; flex: none; }
+  .toast-icon svg { width: 16px; height: 16px; }
+  .toast strong { display: block; font-weight: 600; }
+  .toast span { color: var(--muted); }
+
+  .anim .slot.booked { background: var(--ink-3); color: transparent; transition: background-color .3s ease, color .3s ease; }
+  .anim .slot.booked.on { background: var(--accent); color: #fff; animation: pop .5s cubic-bezier(.2,.9,.3,1.4); }
+  .anim .toast { opacity: 0; transform: translateY(10px) scale(.97); transition: opacity .3s ease, transform .3s ease; }
+  .anim .toast.show { opacity: 1; transform: none; }
+  .anim .phone-badge.ringing svg { animation: wiggle .7s ease-in-out; }
+  .anim .phone-badge.ringing::before { animation: ripple 1s ease-out; }
+  .anim .phone-badge.ringing::after { animation: ripple 1s ease-out .25s; }
+  .anim .cal.fading .slot.booked { transition-duration: .8s; }
+
+  @keyframes pop { 0% { transform: scale(.6); } 100% { transform: scale(1); } }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    15% { transform: rotate(-18deg); } 30% { transform: rotate(16deg); }
+    45% { transform: rotate(-14deg); } 60% { transform: rotate(10deg); } 75% { transform: rotate(-6deg); }
+  }
+  @keyframes ripple { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.9); opacity: 0; } }
+
+  /* Gentle fade-in on scroll */
+  .anim .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .anim .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
 
   /* Industries strip */
   .strip { background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -164,8 +201,12 @@
       </div>
     </div>
     <div class="hero-visual">
+      <div class="hero-stage">
+      <div class="phone-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+      </div>
       <div class="cal" role="img" aria-label="Illustration of a sales rep's work week calendar filled with booked meetings">
-        <div class="cal-head"><strong>Your rep's week</strong><span>Mon to Fri</span></div>
+        <div class="cal-head"><strong>Your rep's week</strong><span><span class="cal-count" id="cal-count">11</span> meetings booked</span></div>
         <div class="cal-grid">
           <div class="cal-col"><div class="cal-day">Mon</div><div class="slot booked">9:00 Intro call</div><div class="slot"></div><div class="slot booked">1:00 Site visit</div><div class="slot booked">3:30 Demo</div></div>
           <div class="cal-col"><div class="cal-day">Tue</div><div class="slot"></div><div class="slot booked">10:30 Audit</div><div class="slot booked">1:00 Intro call</div><div class="slot"></div></div>
@@ -174,6 +215,11 @@
           <div class="cal-col"><div class="cal-day">Fri</div><div class="slot booked">10:00 Intro call</div><div class="slot booked">11:30 Quote</div><div class="slot"></div><div class="slot"></div></div>
         </div>
         <p class="cal-foot">Every block is a prospect who said yes to a conversation.</p>
+      </div>
+      <div class="toast" id="toast" aria-hidden="true">
+        <div class="toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div><strong>Meeting booked</strong><span id="toast-text">Thu 2:00 Audit</span></div>
+      </div>
       </div>
     </div>
   </section>
@@ -301,6 +347,76 @@
 </footer>
 
 <script>
+  /* Hero animation and scroll fade-ins. Skipped entirely for visitors who prefer reduced motion. */
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    document.documentElement.classList.add('anim');
+
+    var cal = document.querySelector('.cal');
+    var phone = document.querySelector('.phone-badge');
+    var toast = document.getElementById('toast');
+    var toastText = document.getElementById('toast-text');
+    var count = document.getElementById('cal-count');
+    var slots = Array.prototype.slice.call(document.querySelectorAll('.slot.booked'));
+    slots.forEach(function (s) {
+      var col = s.parentNode;
+      var day = col.querySelector('.cal-day');
+      s.setAttribute('data-label', (day ? day.textContent + ' ' : '') + s.textContent);
+    });
+
+    function shuffled(list) {
+      var a = list.slice();
+      for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+      return a;
+    }
+
+    function cycle() {
+      slots.forEach(function (s) { s.classList.remove('on'); });
+      cal.classList.remove('fading');
+      count.textContent = '0';
+      var order = shuffled(slots);
+      var i = 0;
+      function next() {
+        if (i >= order.length) {
+          setTimeout(function () { toast.classList.remove('show'); }, 1200);
+          setTimeout(function () { cal.classList.add('fading'); cycle(); }, 4500);
+          return;
+        }
+        var slot = order[i];
+        phone.classList.remove('ringing');
+        void phone.offsetWidth;
+        phone.classList.add('ringing');
+        setTimeout(function () {
+          slot.classList.add('on');
+          i++;
+          count.textContent = String(i);
+          toastText.textContent = slot.getAttribute('data-label');
+          toast.classList.remove('show');
+          void toast.offsetWidth;
+          toast.classList.add('show');
+          setTimeout(next, 900);
+        }, 650);
+      }
+      setTimeout(next, 700);
+    }
+    cycle();
+
+    var revealEls = document.querySelectorAll('.card, .plan, .founder, figure, .h2, .lede, form');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      Array.prototype.forEach.call(revealEls, function (el, n) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = ((n % 4) * 90) + 'ms';
+        io.observe(el);
+      });
+    }
+  })();
+
   (function () {
     var form = document.getElementById('contact-form');
     var status = document.getElementById('form-status');
