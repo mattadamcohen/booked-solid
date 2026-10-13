@@ -117,6 +117,11 @@
   textarea { resize: vertical; }
   button { font: inherit; font-weight: 600; font-size: 17px; background: var(--accent); color: #fff; border: 0; padding: 16px; border-radius: 8px; cursor: pointer; }
   button:hover { background: #9A3412; }
+  button:disabled { opacity: 0.7; cursor: wait; }
+  .hp { display: none; }
+  .form-status { margin: 0; font-size: 15px; line-height: 1.5; min-height: 1px; }
+  .form-status.ok { color: #047857; font-weight: 600; }
+  .form-status.err { color: #B91C1C; font-weight: 600; }
 
   footer { border-top: 1px solid var(--line); }
   footer .wrap { padding-top: 28px; padding-bottom: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--muted); }
@@ -270,8 +275,12 @@
       <h2>Ready to get booked solid?</h2>
       <p class="lede">Tell us what you sell and who you sell to. We'll come back within one business day with how we'd approach it.</p>
     </div>
-    <!-- To make this form send email: create a free form at formspree.io and replace YOUR_FORM_ID below. -->
-    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <!-- Contact form: submissions are sent by Web3Forms to the inbox linked to this access key. -->
+    <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="03706ef1-db2f-48df-b37d-ba718adffcc2">
+      <input type="hidden" name="subject" value="New Booked Solid website enquiry">
+      <input type="hidden" name="from_name" value="Booked Solid website">
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="row">
         <label>Name<input type="text" name="name" autocomplete="name" required></label>
         <label>Company<input type="text" name="company" autocomplete="organization"></label>
@@ -279,6 +288,7 @@
       <label>Work email<input type="email" name="email" autocomplete="email" required></label>
       <label>What do you sell, and to whom?<textarea name="message" rows="4"></textarea></label>
       <button type="submit">Book my call</button>
+      <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
     </form>
   </section>
 </main>
@@ -289,6 +299,45 @@
     <span>© 2026 Booked Solid</span>
   </div>
 </footer>
+
+<script>
+  (function () {
+    var form = document.getElementById('contact-form');
+    var status = document.getElementById('form-status');
+    if (!form || !window.fetch) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var button = form.querySelector('button[type="submit"]');
+      button.disabled = true;
+      button.textContent = 'Sending...';
+      status.className = 'form-status';
+      status.textContent = '';
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.success) {
+            form.reset();
+            status.className = 'form-status ok';
+            status.textContent = "Thanks! We'll be in touch within one business day.";
+          } else {
+            throw new Error('failed');
+          }
+        })
+        .catch(function () {
+          status.className = 'form-status err';
+          status.textContent = 'Something went wrong. Please try again in a moment.';
+        })
+        .then(function () {
+          button.disabled = false;
+          button.textContent = 'Book my call';
+        });
+    });
+  })();
+</script>
 
 </body>
 </html>
