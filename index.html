@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My Meetings | Outsourced appointment setting for US businesses</title>
+<title>My Meetings | Outsourced appointment setting for your business</title>
 <meta name="description" content="My Meetings books qualified sales meetings for US businesses. We make the cold calls, you take the meetings.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect x='1' y='4' width='32' height='29' rx='7' fill='%230E1A2B'/%3E%3Crect x='8' y='1' width='4' height='8' rx='2' fill='%230E1A2B'/%3E%3Crect x='22' y='1' width='4' height='8' rx='2' fill='%230E1A2B'/%3E%3Cpath d='M10 20.5l4.5 4.5L24 15' fill='none' stroke='%23C2410C' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -103,10 +103,16 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 
-  /* Industries strip */
-  .strip { background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .strip .wrap { padding-top: 28px; padding-bottom: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; font-size: 15px; color: var(--muted); }
-  .strip strong { font-weight: 600; color: var(--ink); }
+  /* Industries */
+  .industries { background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .ind-grid { margin-top: 48px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .ind { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; display: flex; flex-direction: column; gap: 6px; }
+  .ind h3 { margin: 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 18px; }
+  .ind p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .ind.more { background: var(--ink); border-color: var(--ink); }
+  .ind.more h3 { color: #fff; }
+  .ind.more p { color: var(--muted-on-dark); }
+  .ind.more a { color: #F4A06B; font-weight: 600; }
 
   /* Steps */
   .grid { margin-top: 56px; display: grid; gap: 24px; }
@@ -182,6 +188,7 @@
       <span class="brand-name">My Meetings</span>
     </a>
     <div class="nav-links">
+      <a href="#industries">Industries</a>
       <a href="#how">How it works</a>
       <a href="#pricing">Pricing</a>
       <a href="#founders">About us</a>
@@ -193,9 +200,9 @@
 <main>
   <section id="top" class="wrap hero">
     <div class="hero-copy">
-      <p class="eyebrow">Outsourced appointment setting for US businesses</p>
+      <p class="eyebrow">Outsourced appointment setting for your business</p>
       <h1>Your calendar, fully booked.</h1>
-      <p class="hero-sub">We pick up the phone so you and your team don't have to. My Meetings cold calls your ideal customers and puts qualified meetings straight into your calendar.</p>
+      <p class="hero-sub">We pick up the phone so you don't have to. My Meetings cold calls your ideal customers and puts qualified meetings straight into your calendar.</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-accent">Book a 15-minute call</a>
         <a href="#how" class="btn btn-outline">See how it works</a>
@@ -225,17 +232,24 @@
     </div>
   </section>
 
-  <section class="strip" aria-label="Industries we work with">
-    <div class="wrap">
-      <strong>Built for companies that sell to businesses:</strong>
-      <span>Waste and recycling</span>
-      <span>Energy brokers</span>
-      <span>Merchant services</span>
-      <span>Office equipment</span>
-      <span>Uniform and linen</span>
-      <span>Facilities services</span>
-      <span>Dental and medical supply</span>
-      <span>Camp suppliers</span>
+  <section id="industries" class="industries">
+    <div class="wrap section">
+      <p class="eyebrow">Industries we support</p>
+      <h2 class="h2">Built for companies that sell to other businesses.</h2>
+      <p class="lede">If your team sells products or services to business owners and managers, we can fill your calendar. Some of the industries we work with:</p>
+      <div class="ind-grid">
+        <div class="ind"><h3>Dental and medical equipment</h3><p>Equipment, supplies and services for practices and clinics.</p></div>
+        <div class="ind"><h3>Manufacturing equipment</h3><p>Machinery, parts, tooling and maintenance for plants and workshops.</p></div>
+        <div class="ind"><h3>HVAC</h3><p>Commercial installs, service agreements and maintenance contracts.</p></div>
+        <div class="ind"><h3>Office equipment</h3><p>Copiers, printers, phones and office technology.</p></div>
+        <div class="ind"><h3>Facilities services</h3><p>Cleaning, maintenance and building services.</p></div>
+        <div class="ind"><h3>Waste and recycling</h3><p>Commercial waste, recycling and disposal programs.</p></div>
+        <div class="ind"><h3>Energy brokers</h3><p>Electricity and gas contracts for businesses.</p></div>
+        <div class="ind"><h3>Merchant services</h3><p>Payments, card processing and point of sale.</p></div>
+        <div class="ind"><h3>Uniform and linen</h3><p>Workwear, uniforms and linen services.</p></div>
+        <div class="ind"><h3>Camp suppliers</h3><p>Equipment, food service and supplies for camps.</p></div>
+        <div class="ind more"><h3>Don't see yours?</h3><p>If you sell to businesses, we can probably help. <a href="#contact">Tell us what you sell.</a></p></div>
+      </div>
     </div>
   </section>
 
@@ -280,14 +294,14 @@
       <div class="plan">
         <div><h3>Pilot</h3><p class="desc">Try us for a month and see the results.</p></div>
         <div class="price">$1,500<small> first month</small></div>
-        <ul><li>One focused calling campaign</li><li>Target list built for you</li><li>Meetings booked into your calendar</li><li>End-of-month results review</li></ul>
+        <ul><li>Calling campaign based on your target market</li><li>Enriched target list built for you, with decision makers and contact details</li><li>Meetings booked into your calendar</li><li>End-of-month results review</li></ul>
         <a href="#contact" class="btn btn-outline">Start a pilot</a>
       </div>
       <div class="plan featured">
         <span class="badge">Most popular</span>
         <div><h3>Retainer</h3><p class="desc">An ongoing stream of meetings, every month.</p></div>
         <div class="price">$2,000<small> /month</small></div>
-        <ul><li>Daily calling plus email follow-up</li><li>Custom script written with you</li><li>Meetings with prospect notes</li><li>Weekly performance report</li><li>Month to month, cancel anytime</li></ul>
+        <ul><li>Daily calling plus email follow-up</li><li>Custom script written with you</li><li>A sales one-pager created for your offer</li><li>Meetings with prospect notes</li><li>Weekly performance report</li><li>Month to month, cancel anytime</li></ul>
         <a href="#contact" class="btn btn-accent">Book a call</a>
       </div>
       <div class="plan">
@@ -307,11 +321,11 @@
       <div class="grid grid-2">
         <div class="founder">
           <div class="avatar" aria-hidden="true">M</div>
-          <div class="founder-body"><h3>Matt</h3><p class="role">Co-founder</p><p class="bio">10+ years in B2B sales, business development and partnerships.</p></div>
+          <div class="founder-body"><h3>Matt</h3><p class="role">Co-founder, client delivery</p><p class="bio">Runs everything you get from us: onboarding, scripts, meeting quality and weekly reporting. 10+ years in B2B sales, business development and partnerships, making sure what we promise is what you get.</p></div>
         </div>
         <div class="founder">
           <div class="avatar alt" aria-hidden="true">B</div>
-          <div class="founder-body"><h3>Benzi</h3><p class="role">Co-founder</p><p class="bio">Career salesperson with a background in business development and cold calling.</p></div>
+          <div class="founder-body"><h3>Ben</h3><p class="role">Co-founder, lead generation</p><p class="bio">Runs prospecting: building your target lists, finding the decision makers and leading the calling. Career salesperson with a background in business development and cold calling.</p></div>
         </div>
       </div>
     </div>
@@ -343,7 +357,7 @@
 <footer>
   <div class="wrap">
     <span><strong>My Meetings</strong> · You close. We book.</span>
-    <span>mymeetings.online · © 2026 My Meetings</span>
+    <span>mymeetingsnow.com · © 2026 My Meetings</span>
   </div>
 </footer>
 
