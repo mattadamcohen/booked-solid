@@ -128,6 +128,7 @@ nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: spac
 .founder { background: #fff; border-radius: 14px; padding: 32px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
 .avatar { width: 96px; height: 96px; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 34px; flex: none; }
 .avatar.alt { background: var(--accent); }
+img.avatar { object-fit: cover; background: var(--soft); }
 .founder-body { flex: 1 1 200px; min-width: 0; }
 .founder h3 { margin: 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 24px; }
 .role { margin: 4px 0 14px; font-size: 15px; font-weight: 600; color: var(--accent-text); }
